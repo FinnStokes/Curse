@@ -100,9 +100,14 @@ Agent.prototype.draw = function(gridX,gridY,width,height) {
 function Start(x,y) {
     this.x = x;
     this.y = y;
+    this.path0 = new Path(x,y,0);
+    this.path1 = new Path(x,y,1);
 }
 
 Start.prototype.draw = function(gridX,gridY,width,height) {
+    this.path0.draw(gridX,gridY,width,height);
+    this.path1.draw(gridX,gridY,width,height);
+
     ctx.fillStyle = '#DD00DD';
     var x = gridX+(this.x + 0.5)*width;
     var y = gridY+(this.y + 0.5)*width;
@@ -110,5 +115,73 @@ Start.prototype.draw = function(gridX,gridY,width,height) {
     ctx.arc(x,y,12,0,Math.PI*2,true);
     ctx.closePath();
     ctx.fill();
-    
+}
+
+function Path(x,y,player) {
+    this.x = x;
+    this.y = y;
+    this.player = player;
+}
+
+Path.prototype.draw = function(gridX,gridY,width,height) {
+    ctx.strokeStyle = playerColours[this.player];
+    ctx.lineWidth = 2;
+    var x = this.x;
+    var y = this.y;
+    var newX = x;
+    var newY = y;
+    var xMax = grid.cells.length-1;
+    var yMax = grid.cells[0].length-1;
+    var dir = UP;
+    oldCommands = new Array();
+    var command;
+    ctx.beginPath();
+    ctx.moveTo(gridX+(x+(1.1+this.player*0.8)/3)*width,gridY+(y+(1.1+this.player*0.8)/3)*width);
+
+    while(true){
+	command = directionCommands[this.player][x][y];
+	if(command) {
+	    ctx.lineTo(gridX+(x+(1.1+this.player*0.8)/3)*width,gridY+(y+(1.1+this.player*0.8)/3)*width);
+	    var loop = false;
+	    for(c in oldCommands) {
+		console.log(oldCommands[c]+", "+command);
+		if(oldCommands[c] == command) {
+		    console.log("loop");
+		    loop = true;
+		    break;
+		}
+	    }
+	    if(loop) {
+		break;
+	    }
+	    dir = command.action;
+	    oldCommands.push(command);
+	}
+
+	switch(dir) {
+	case LEFT:
+	    newX = x - 1;
+	    break;
+	case UP:
+	    newY = y - 1;
+	    break;
+	case RIGHT:
+	    newX = x + 1;
+	    break;
+	case DOWN:
+	    newY = y + 1;
+	    break;
+	}
+
+	if(newX < 0 || newY < 0 ||newX > xMax || newY > yMax ||
+	   grid.cells[newX][newY].impassable) {
+	    ctx.lineTo(gridX+(x+(1.1+this.player*0.8)/3)*width,gridY+(y+(1.1+this.player*0.8)/3)*width);
+	    break;
+	} else {
+	    x = newX;
+	    y = newY;
+	}
+    }
+
+    ctx.stroke();
 }
