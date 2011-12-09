@@ -106,8 +106,8 @@ function resetLevel() {
 	guards[i].dir = level.guards[i].dir;
     }
     for(var i = 0; i < terminals.length; i++) {
-	terminals[i].doorA.impassable = true;
-	terminals[i].doorB.impassable = false;
+	terminals[i].doorA.solid = true;
+	terminals[i].doorB.solid = false;
     }
     bombs = [];
     objective.x = level.objective.x;

@@ -26,6 +26,7 @@ function Cell(x,y,width,height) {
 }
 
 Cell.prototype.impassable = false;
+Cell.prototype.solid = false;
 Cell.prototype.opaque = false;
 Cell.prototype.destructible = false;
 Cell.prototype.draw = function(gridX,gridY) {
@@ -45,6 +46,7 @@ function Wall(x,y,width,height) {
 }
 
 Wall.prototype.impassable = true;
+Wall.prototype.solid = true;
 Wall.prototype.opaque = true;
 Wall.prototype.destructible = false;
 Wall.prototype.draw = function(gridX,gridY) {
@@ -65,7 +67,8 @@ function Glass(x,y,width,height) {
     this.height = height;
 }
 
-Glass.prototype.impassable = true;
+Glass.prototype.impassable = false;
+Glass.prototype.solid = true;
 Glass.prototype.opaque = false;
 Glass.prototype.destructible = true;
 Glass.prototype.draw = function(gridX,gridY) {

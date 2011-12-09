@@ -20,22 +20,22 @@ Agent.prototype.update = function() {
 	case LEFT:
 	    this.x -= 1
 	    if(this.x < 0) this.x = 0;
-	    if(grid.cells[this.x][this.y].impassable) this.x += 1;
+	    if(grid.cells[this.x][this.y].solid) this.x += 1;
 	    break;
 	case UP:
 	    this.y -= 1
 	    if(this.y < 0) this.y = 0;
-	    if(grid.cells[this.x][this.y].impassable) this.y += 1;
+	    if(grid.cells[this.x][this.y].solid) this.y += 1;
 	    break;
 	case RIGHT:
 	    this.x += 1
 	    if(this.x > this.xMax) this.x = this.xMax;
-	    if(grid.cells[this.x][this.y].impassable) this.x -= 1;
+	    if(grid.cells[this.x][this.y].solid) this.x -= 1;
 	    break;
 	case DOWN:
 	    this.y += 1
 	    if(this.y > this.yMax) this.y = this.yMax;
-	    if(grid.cells[this.x][this.y].impassable) this.y -= 1;
+	    if(grid.cells[this.x][this.y].solid) this.y -= 1;
 	    break;
 	}
     }
@@ -55,8 +55,8 @@ Agent.prototype.update = function() {
 	    case 0:
 		for(var i = 0; i < terminals.length; i++){
 		    if(terminals[i].term.x === this.x && terminals[i].term.y === this.y) {
-			terminals[i].doorA.impassable = !terminals[i].doorA.impassable;
-			terminals[i].doorB.impassable = !terminals[i].doorB.impassable;
+			terminals[i].doorA.solid = !terminals[i].doorA.solid;
+			terminals[i].doorB.solid = !terminals[i].doorB.solid;
 		    }
 		}
 		break;
@@ -174,7 +174,7 @@ Path.prototype.draw = function(gridX,gridY,width,height) {
 	}
 
 	if(newX < 0 || newY < 0 ||newX > xMax || newY > yMax ||
-	   grid.cells[newX][newY].impassable) {
+	   (grid.cells[newX][newY].impassable)) {
 	    ctx.lineTo(gridX+(x+(1.1+this.player*0.8)/3)*width,gridY+(y+(1.1+this.player*0.8)/3)*width);
 	    break;
 	} else {

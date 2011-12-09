@@ -41,15 +41,16 @@ Terminal.prototype.draw = function(gridX,gridY,width,height) {
     ctx.fill();    
 }
 
-function TDoor(id,x,y,width,height,impassable) {
+function TDoor(id,x,y,width,height,solid) {
     this.id = id;
     this.x = x;
     this.y = y;
     this.width = width;
     this.height = height;
-    this.impassable = impassable;
+    this.solid = solid;
 }
 
+TDoor.prototype.impassable = false;
 TDoor.prototype.opaque = true;
 TDoor.prototype.destructible = false;
 TDoor.prototype.draw = function(gridX,gridY) {
@@ -61,7 +62,7 @@ TDoor.prototype.draw = function(gridX,gridY) {
     ctx.closePath();
     ctx.stroke();
     ctx.fill();
-    if(this.impassable){
+    if(this.solid){
     	ctx.fillStyle = '#444444';
     } else {
     	ctx.fillStyle = '#FFFFFF';

@@ -35,7 +35,7 @@ Guard.prototype.update = function() {
 	switch(this.dir) {
 	case LEFT:
 	    this.x -= 1
-	    if(this.x < 0 || grid.cells[this.x][this.y].impassable) {
+	    if(this.x < 0 || grid.cells[this.x][this.y].solid) {
 		this.x += 1;
 		this.dir = this.rule(this.dir);
 		recalc = true;
@@ -43,7 +43,7 @@ Guard.prototype.update = function() {
 	    break;
 	case UP:
 	    this.y -= 1
-	    if(this.y < 0 || grid.cells[this.x][this.y].impassable) {
+	    if(this.y < 0 || grid.cells[this.x][this.y].solid) {
 		this.y += 1;
 		this.dir = this.rule(this.dir);
 		recalc = true;
@@ -51,7 +51,7 @@ Guard.prototype.update = function() {
 	    break;
 	case RIGHT:
 	    this.x += 1
-	    if(this.x > this.xMax || grid.cells[this.x][this.y].impassable) {
+	    if(this.x > this.xMax || grid.cells[this.x][this.y].solid) {
 		this.x -= 1;
 		this.dir = this.rule(this.dir);
 		recalc = true;
@@ -59,7 +59,7 @@ Guard.prototype.update = function() {
 	    break;
 	case DOWN:
 	    this.y += 1
-	    if(this.y > this.yMax || grid.cells[this.x][this.y].impassable) {
+	    if(this.y > this.yMax || grid.cells[this.x][this.y].solid) {
 		this.y -= 1;
 		this.dir = this.rule(this.dir);
 		recalc = true;
